@@ -1,0 +1,8 @@
+spring:
+  application:
+    name: spends-helper
+
+server:
+  port: 8089
+  servlet:
+    context-path: /main-service
