@@ -1,0 +1,57 @@
+---
+openapi: 3.0.2
+info:
+  title: spehel
+  version: 1.0.0
+  description: Spends List
+servers:
+  - url: http://localhost:8080/v1
+    description: "localhost"
+
+tags:
+  - name: spehel
+    description: 'spehel'
+
+paths:
+  /todos:
+    summary: get spends
+    description: get all spents from banks
+    get:
+      tags:
+        - spehel
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/spend'
+          description: Successful response - returns an array of `todo` entities.
+      operationId: getSpends
+      summary: List All spends
+      description: Gets a list of all speds
+
+components:
+  schemas:
+    spend:
+      title: spend
+      description: Spend List item
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        date:
+          format: date-time
+          type: string
+        category:
+          description: spent category
+          type: string
+      example:
+        value:
+          name: coffee
+          description: buy coffee in shop
+          date: 2018-05-06T18:25:43.511Z
+          category: products
