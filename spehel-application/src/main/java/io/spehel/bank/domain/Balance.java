@@ -41,7 +41,7 @@ public class Balance {
         this.webHookUrl = webHookUrl;
     }
 
-    static class Account {
+    public static class Account {
 
         private Long balance;
         private String cashbackType;

@@ -12,6 +12,7 @@
     <artifactId>spehel-application</artifactId>
 
     <dependencies>
+        <!-- Spehel -->
         <dependency>
             <groupId>io.spehel</groupId>
             <artifactId>spehel-spring-web-stub</artifactId>
@@ -20,6 +21,11 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-thymeleaf</artifactId>
         </dependency>
 
         <!-- Web -->
@@ -35,6 +41,11 @@
         <dependency>
             <groupId>com.squareup.okhttp3</groupId>
             <artifactId>okhttp</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
         </dependency>
     </dependencies>
 

@@ -6,3 +6,12 @@ server:
   port: 8089
   servlet:
     context-path: /main-service
+
+spehel:
+  bank:
+    monobank:
+      url: ${SPEHEL_MONOBANK_URL:https://api.monobank.ua}
+      xToken: ${SPEHEL_X_TOKEN:asdsa}
+      dollarBalanceBlack: ${SPEHEL_DOLLAR_BALANCE_BLACK:asd}
+      hrivnaBalanceWhite: ${SPEHEL_HRIVNA_BALANCE_WHITE:asd}
+      hrivnaBalanceBlack: ${SPEHEL_HRIVNA_BALANCE_BLACK:asd}

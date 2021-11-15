@@ -2,6 +2,10 @@
 package io.spehel.bank.domain;
 
 
+import io.blend.api.model.Spend;
+
+import java.time.Instant;
+import java.time.ZoneId;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -143,6 +147,10 @@ public class SpentModel {
 
     public void setTime(Long time) {
         this.time = time;
+    }
+
+    public Spend toDTO() {
+        return new Spend(amount.intValue(), Instant.ofEpochMilli(time).atZone(ZoneId.systemDefault()).toLocalDate(), description);
     }
 
     @Override

@@ -5,13 +5,16 @@ import io.blend.api.model.Spend;
 import io.spehel.bank.BankFacade;
 import io.swagger.annotations.Api;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-@RestController
-@Api(tags = {"spehel"})
-public class BankController implements SpehelApi {
+@Controller
+//@Api(tags = {"spehel"})
+public class BankController {
 
     private final BankFacade bankFacade;
 
@@ -19,8 +22,11 @@ public class BankController implements SpehelApi {
         this.bankFacade = bankFacade;
     }
 
-    @Override
-    public ResponseEntity<List<Spend>> getSpends() {
-        return SpehelApi.super.getSpends();
+    @GetMapping("/spends")
+    public String getSpends(Model model) {
+        List<Spend> spends = bankFacade.getSpends();
+        model.addAttribute("spends", spends);
+
+        return "spends";
     }
 }

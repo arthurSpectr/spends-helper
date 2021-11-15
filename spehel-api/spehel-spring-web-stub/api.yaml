@@ -39,19 +39,16 @@ components:
       description: Spend List item
       type: object
       properties:
-        name:
-          type: string
-        description:
-          type: string
+        amount:
+          type: integer
         date:
-          format: date-time
+          format: date
           type: string
         category:
           description: spent category
           type: string
       example:
         value:
-          name: coffee
-          description: buy coffee in shop
+          amount: 80
           date: 2018-05-06T18:25:43.511Z
           category: products
