@@ -1,6 +1,11 @@
 spring:
   application:
     name: spends-helper
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      database: spehel
 
 server:
   port: 8089

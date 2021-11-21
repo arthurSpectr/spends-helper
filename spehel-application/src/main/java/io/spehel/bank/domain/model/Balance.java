@@ -1,5 +1,5 @@
 
-package io.spehel.bank.domain;
+package io.spehel.bank.domain.model;
 
 import java.util.List;
 public class Balance {

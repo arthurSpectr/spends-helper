@@ -40,13 +40,18 @@ components:
       type: object
       properties:
         amount:
-          type: integer
+          type: number
+          format: double
         date:
           format: date
           type: string
         category:
           description: spent category
           type: string
+        balance:
+          description: balance
+          type: number
+          format: double
       example:
         value:
           amount: 80
