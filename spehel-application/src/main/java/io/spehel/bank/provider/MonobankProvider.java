@@ -1,8 +1,8 @@
 package io.spehel.bank.provider;
 
 import com.google.gson.Gson;
-import io.spehel.bank.domain.Balance;
-import io.spehel.bank.domain.SpentModel;
+import io.spehel.bank.domain.model.Balance;
+import io.spehel.bank.domain.model.SpentModel;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -10,8 +10,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
-import java.util.Calendar;
-import java.util.Date;
 
 @Component
 public class MonobankProvider implements BankProvider {
@@ -48,14 +46,13 @@ public class MonobankProvider implements BankProvider {
                 System.out.println(jsonResponse);
             } else {
                 jsonResponse = execute.body().string();
-                System.out.println(jsonResponse);
 
                 spentModels = new Gson().fromJson(jsonResponse, SpentModel[].class);
 
                 int counter = 0;
-                for (SpentModel spentModel : spentModels) {
-                    System.out.println("Spent #" + (++counter) + spentModel);
-                }
+//                for (SpentModel spentModel : spentModels) {
+//                    System.out.println("Spent #" + (++counter) + spentModel);
+//                }
 
             }
 
