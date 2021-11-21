@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <link th:rel="stylesheet" th:href="@{webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} "/>
+</head>
+<body>
+
+<div class="container">
+    <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#exampleModal">Add record</button>
+    <th:block th:replace="modal :: modal('exampleModal')">modal</th:block>
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Category</th>
+            <th scope="col">Words</th>
+            <th scope="col">Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:if="${words.empty}">
+            <td colspan="2"> No Spends Available</td>
+        </tr>
+        <tr th:each="word : ${words}">
+            <td><span th:text="${words.indexOf(word)}"></span></td>
+            <td><span th:text="${word.category}"></span></td>
+            <td><span th:text="${word.words}"></span></td>
+            <td>
+                <span>X</span>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+<script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
+<script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+</body>
+</html>
