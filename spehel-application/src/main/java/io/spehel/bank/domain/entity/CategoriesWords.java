@@ -1,5 +1,6 @@
-package io.spehel.bank.domain.model;
+package io.spehel.bank.domain.entity;
 
+import io.spehel.bank.domain.model.Category;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.PersistenceConstructor;
 import org.springframework.data.mongodb.core.mapping.Document;

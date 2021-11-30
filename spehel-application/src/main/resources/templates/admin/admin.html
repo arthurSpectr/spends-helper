@@ -4,13 +4,15 @@
     <meta charset="UTF-8">
     <title>Title</title>
 
-    <link th:rel="stylesheet" th:href="@{webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} "/>
+    <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} "/>
+    <link th:rel="stylesheet" th:href="@{/css/main.css}"/>
 </head>
 <body>
 
 <div class="container">
-    <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#exampleModal">Add record</button>
-    <th:block th:replace="modal :: modal('exampleModal')">modal</th:block>
+<!--    <a th:href="@{/admin/add-record}" class="btn btn-primary"><button class="btn btn-primary" type="button" data-toggle="modal" data-target="#exampleModal">Add record</button></a>-->
+    <a th:href="@{/admin/add-record}" class="btn btn-primary">Add record</a>
+<!--    <th:block th:replace="modal :: modal('exampleModal')">modal</th:block>-->
     <table class="table">
         <thead>
         <tr>
@@ -29,7 +31,7 @@
             <td><span th:text="${word.category}"></span></td>
             <td><span th:text="${word.words}"></span></td>
             <td>
-                <span>X</span>
+                <a th:href="@{/admin/delete-record/{id}(id=${word.id})}" class="btn btn-danger">X</a>
             </td>
         </tr>
         </tbody>

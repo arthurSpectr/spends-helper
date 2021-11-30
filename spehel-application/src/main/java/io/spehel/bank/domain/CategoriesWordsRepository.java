@@ -1,6 +1,6 @@
 package io.spehel.bank.domain;
 
-import io.spehel.bank.domain.model.CategoriesWords;
+import io.spehel.bank.domain.entity.CategoriesWords;
 import io.spehel.bank.domain.model.Category;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;

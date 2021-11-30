@@ -3,7 +3,7 @@ package io.spehel.bank.domain;
 import com.google.common.collect.Lists;
 import io.blend.api.model.Spend;
 import io.spehel.bank.BankFacade;
-import io.spehel.bank.domain.model.CategoriesWords;
+import io.spehel.bank.domain.entity.CategoriesWords;
 import io.spehel.bank.domain.model.RangeModel;
 import io.spehel.bank.domain.model.SpentModel;
 import io.spehel.bank.provider.BankProvider;

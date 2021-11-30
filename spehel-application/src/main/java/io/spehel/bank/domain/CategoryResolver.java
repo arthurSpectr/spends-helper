@@ -1,6 +1,6 @@
 package io.spehel.bank.domain;
 
-import io.spehel.bank.domain.model.CategoriesWords;
+import io.spehel.bank.domain.entity.CategoriesWords;
 import io.spehel.bank.domain.model.SpentModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
