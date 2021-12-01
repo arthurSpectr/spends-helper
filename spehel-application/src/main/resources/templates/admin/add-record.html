@@ -11,13 +11,13 @@
     <form action="#" th:action="@{/admin/add-record}" th:object="${categoriesWords}" method="post">
         <div class="form-group">
             <select class="custom-select" th:field="*{category}">
-                <option th:each="category : ${T(io.spehel.bank.domain.model.Category).values()}" th:value="${category}" th:text="${category}">
+                <option th:each="category : ${T(io.spehel.bank.domain.model.Category).values()}" th:value="${wordsModel?.category ?: category}" th:text="${category}">
                 </option>
             </select>
         </div>
         <div class="form-group">
-            <label for="exampleInputPassword1">Words</label>
-            <input type="text" th:field="*{words}" class="form-control" id="exampleInputPassword1"
+            <label for="words">Words</label>
+            <input type="text" th:value="${wordsModel?.words}" class="form-control" id="words" name="words"
                    placeholder="Key words">
         </div>
         <button type="submit" class="btn btn-primary">Submit</button>

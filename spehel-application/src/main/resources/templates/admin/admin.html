@@ -5,7 +5,10 @@
     <title>Title</title>
 
     <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} "/>
+    <link th:rel="stylesheet" th:href="@{/webjars/font-awesome/5.11.2/css/all.css} "/>
     <link th:rel="stylesheet" th:href="@{/css/main.css}"/>
+
+    <script src="https://kit.fontawesome.com/f6daa601f0.js" crossorigin="anonymous"></script>
 </head>
 <body>
 
@@ -32,6 +35,7 @@
             <td><span th:text="${word.words}"></span></td>
             <td>
                 <a th:href="@{/admin/delete-record/{id}(id=${word.id})}" class="btn btn-danger">X</a>
+                <a th:href="@{/admin/edit-record/{id}(id=${word.id})}" class="btn btn-info"><i class="fa fa-pencil"></i></a>
             </td>
         </tr>
         </tbody>

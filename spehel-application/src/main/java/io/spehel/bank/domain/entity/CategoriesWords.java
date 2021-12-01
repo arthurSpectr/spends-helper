@@ -6,6 +6,7 @@ import org.springframework.data.annotation.PersistenceConstructor;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Document
 public class CategoriesWords {
@@ -48,5 +49,9 @@ public class CategoriesWords {
 
     public void setWords(List<String> words) {
         this.words = words;
+    }
+
+    public String getPrettyWords() {
+        return String.join(" ", words);
     }
 }
