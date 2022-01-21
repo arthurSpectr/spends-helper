@@ -1,30 +1,29 @@
-package io.spehel.bank.domain.entity;
+package io.spehel.bank.domain.model;
 
-import io.spehel.bank.domain.model.Category;
+import io.spehel.redis.domain.model.RedisCategoryModel;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.PersistenceConstructor;
+import org.springframework.data.mongodb.core.index.TextIndexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
-@Document
-public class CategoriesWords {
+@Document(collection = "categorymodel")
+public class CategoryModel {
 
     @Id
     public String id;
 
     private Category category;
+
+    @TextIndexed
     private List<String> words;
 
     @PersistenceConstructor
-    public CategoriesWords(String id, Category category, List<String> words) {
+    public CategoryModel(String id, Category category, List<String> words) {
         this.id = id;
         this.category = category;
         this.words = words;
-    }
-
-    public CategoriesWords() {
     }
 
     public String getId() {
@@ -53,5 +52,9 @@ public class CategoriesWords {
 
     public String getPrettyWords() {
         return String.join(" ", words);
+    }
+
+    public RedisCategoryModel toDTO() {
+        return new RedisCategoryModel(id, category, words);
     }
 }
