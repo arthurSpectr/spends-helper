@@ -29,6 +29,7 @@
 
         <!-- Spring -->
         <spring-cloud-dependencies.version>Hoxton.SR10</spring-cloud-dependencies.version>
+        <spring-boot-redis>2.5.6</spring-boot-redis>
 
         <!-- Web -->
         <springfox-version>2.9.2</springfox-version>
@@ -73,6 +74,13 @@
                 <groupId>io.springfox</groupId>
                 <artifactId>springfox-swagger-ui</artifactId>
                 <version>${springfox-version}</version>
+            </dependency>
+
+            <!-- Redis -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-data-redis</artifactId>
+                <version>${spring-boot-redis}</version>
             </dependency>
 
         </dependencies>
