@@ -20,3 +20,7 @@ spehel:
       dollarBalanceBlack: ${SPEHEL_DOLLAR_BALANCE_BLACK:ryhGec43gBCMdzCFG7k3_A}
       hrivnaBalanceWhite: ${SPEHEL_HRIVNA_BALANCE_WHITE:g0ZzhwWPTHrZf6ZlByCeqg}
       hrivnaBalanceBlack: ${SPEHEL_HRIVNA_BALANCE_BLACK:P5e_ivygxvD1QGrqZhyRpg}
+  monthToStart: ${SPEHEL_START_TIME_POINT:3}
+  redis:
+    host: localhost
+    port: 6379
