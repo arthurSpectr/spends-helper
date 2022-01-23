@@ -1,4 +1,4 @@
-package io.spehel.redis.domain.model;
+package io.spehel.redis.domain;
 
 import io.spehel.bank.domain.model.Category;
 import org.springframework.data.redis.core.RedisHash;
