@@ -6,6 +6,4 @@ public interface SpendsCustomRepository {
     List<SpentModel> findAllByTime(Long dateFrom, Long dateTo);
 
     SpentModel findByMaxTime();
-
-    SpentModel findByMinTime();
 }
