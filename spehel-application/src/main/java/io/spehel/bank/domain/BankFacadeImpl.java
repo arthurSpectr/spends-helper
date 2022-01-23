@@ -27,20 +27,14 @@ public class BankFacadeImpl implements BankFacade {
 
     private static final Logger log = LoggerFactory.getLogger(BankFacadeImpl.class);
 
-    private final CategoriesRepository repository;
-
     private final SpendsRepository spendsRepository;
 
-    public BankFacadeImpl(CategoriesRepository repository, SpendsRepository spendsRepository) {
-        this.repository = repository;
+    public BankFacadeImpl(SpendsRepository spendsRepository) {
         this.spendsRepository = spendsRepository;
     }
 
     @Override
     public Paged<Spend> getSpends(RangeModel range, int pageNumber, int size) {
-        List<CategoryModel> all = repository.findAll();
-        log.info(String.valueOf(all));
-
         Page<SpentModel> spends;
         Page<Spend> result = Page.empty();
 
@@ -49,6 +43,8 @@ public class BankFacadeImpl implements BankFacade {
         } else {
             spends = spendsRepository.findAllByTimeBetween(Instant.now().minus(30, ChronoUnit.DAYS).getEpochSecond(), Instant.now().getEpochSecond(), PageRequest.of(pageNumber, size, Sort.by(Sort.Direction.DESC, "time")));
         }
+
+        log.info("spends records queried size {}", spends.getTotalElements());
 
         if(Objects.nonNull(spends)) {
             result = spends.map(SpentModel::toDTO);
