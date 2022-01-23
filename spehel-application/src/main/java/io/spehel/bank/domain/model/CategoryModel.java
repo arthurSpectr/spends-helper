@@ -1,6 +1,6 @@
 package io.spehel.bank.domain.model;
 
-import io.spehel.redis.domain.model.RedisCategoryModel;
+import io.spehel.redis.domain.RedisCategoryModel;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.PersistenceConstructor;
 import org.springframework.data.mongodb.core.index.TextIndexed;

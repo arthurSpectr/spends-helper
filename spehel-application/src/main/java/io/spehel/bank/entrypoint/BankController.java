@@ -19,7 +19,7 @@ public class BankController {
         this.bankFacade = bankFacade;
     }
 
-    @GetMapping("/spends")
+    @GetMapping
     public String getSpends(Model model) {
         List<Spend> spends = bankFacade.getSpends(null);
         model.addAttribute("spends", spends);

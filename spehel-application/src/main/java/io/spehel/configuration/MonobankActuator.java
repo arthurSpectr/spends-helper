@@ -2,6 +2,8 @@ package io.spehel.configuration;
 
 import io.spehel.bank.domain.model.SpentModelDTO;
 import io.spehel.bank.provider.BankProvider;
+import io.spehel.spends.domain.SpendsRepository;
+import io.spehel.spends.domain.SpentModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
