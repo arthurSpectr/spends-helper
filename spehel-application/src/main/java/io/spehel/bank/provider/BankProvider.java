@@ -1,7 +1,9 @@
 package io.spehel.bank.provider;
 
-import io.spehel.bank.domain.model.SpentModel;
+import io.spehel.bank.domain.model.SpentModelDTO;
+
+import java.util.List;
 
 public interface BankProvider {
-    SpentModel[] getSpends(String balance, long dateFrom, long dateTo);
+    List<SpentModelDTO> getSpends(String balance, long dateFrom, long dateTo);
 }

@@ -1,18 +1,25 @@
 package io.spehel.bank.provider;
 
 import com.google.gson.Gson;
-import io.spehel.bank.domain.model.Balance;
-import io.spehel.bank.domain.model.SpentModel;
+import com.google.gson.reflect.TypeToken;
+import io.spehel.bank.domain.model.SpentModelDTO;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.List;
 
 @Component
 public class MonobankProvider implements BankProvider {
+
+    private static final Logger log = LoggerFactory.getLogger(MonobankProvider.class);
 
     private final String X_TOKEN_HEADER_NAME = "X-Token";
 
@@ -23,9 +30,9 @@ public class MonobankProvider implements BankProvider {
     private String xTokenHeaderValue;
 
     @Override
-    public SpentModel[] getSpends(String balance, long dateFrom, long dateTo) {
+    public List<SpentModelDTO> getSpends(String balance, long dateFrom, long dateTo) {
 
-        SpentModel[] spentModels = null;
+        List<SpentModelDTO> spentModels = null;
 
         OkHttpClient client = new OkHttpClient();
 
@@ -38,68 +45,22 @@ public class MonobankProvider implements BankProvider {
         try {
             Response execute = client.newCall(req).execute();
 
-            String jsonResponse = "";
-
             if(execute.code() != 200) {
-                System.out.println("Bad request");
-                jsonResponse = execute.body().string();
-                System.out.println(jsonResponse);
+                log.info("Bad request");
+                String jsonResponse = execute.body().string();
+                log.info(jsonResponse);
             } else {
-                jsonResponse = execute.body().string();
+                String jsonResponse = execute.body().string();
 
-                spentModels = new Gson().fromJson(jsonResponse, SpentModel[].class);
+                Type userListType = new TypeToken<ArrayList<SpentModelDTO>>(){}.getType();
 
-                int counter = 0;
-//                for (SpentModel spentModel : spentModels) {
-//                    System.out.println("Spent #" + (++counter) + spentModel);
-//                }
-
+                spentModels = new Gson().fromJson(jsonResponse, userListType);
             }
 
         } catch (IOException e) {
-            System.out.println("some exception during performing request");
+            log.error("some exception during performing request");
         }
 
         return spentModels;
     }
-
-    void printBalances() {
-        OkHttpClient client = new OkHttpClient();
-
-        Request req = new Request.Builder()
-                .get()
-                .url(monobankUrl + "/personal/client-info")
-                .addHeader(X_TOKEN_HEADER_NAME, xTokenHeaderValue)
-                .build();
-
-        try {
-            Response execute = client.newCall(req).execute();
-
-            String jsonResponse = "";
-
-            if(execute.code() != 200) {
-                System.out.println("Bad request");
-                jsonResponse = execute.body().string();
-                System.out.println(jsonResponse);
-            } else {
-                jsonResponse = execute.body().string();
-                System.out.println(jsonResponse);
-
-                Balance balances = new Gson().fromJson(jsonResponse, Balance.class);
-
-                System.out.println(balances);
-
-                System.out.println("=============BALANCES=============");
-
-                for (Balance.Account account : balances.getAccounts()) {
-                    System.out.println(account);
-                }
-
-            }
-
-        } catch (IOException e) {
-            System.out.println("some exception during performing request");
-        }
-    }
-
 }
