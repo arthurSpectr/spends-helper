@@ -1,5 +1,6 @@
 package io.spehel.configuration;
 
+import io.spehel.bank.domain.CategoryResolver;
 import io.spehel.bank.domain.model.SpentModelDTO;
 import io.spehel.bank.provider.BankProvider;
 import io.spehel.spends.domain.SpendsRepository;
@@ -35,6 +36,9 @@ public class MonobankActuator {
     @Autowired
     private SpendsRepository spendsRepository;
 
+    @Autowired
+    private CategoryResolver resolver;
+
     @EventListener(ApplicationReadyEvent.class)
     public void actualizeSpends() {
 
@@ -48,6 +52,9 @@ public class MonobankActuator {
         if(rangeEnd == null) {
             log.info("save new records from last 30 days");
             spends = accumulateRecords(monthToStart);
+
+            resolver.resolveCategories(spends);
+
             spendsRepository.saveAll(spends.stream().map(SpentModelDTO::toSpendModel).collect(Collectors.toList()));
         } else {
             spends = bankProvider.getSpends(hrivnaBalanceWhite, rangeEnd.getTimeInstant().plus(1, ChronoUnit.SECONDS).toEpochMilli(), Instant.now().toEpochMilli());
@@ -56,6 +63,7 @@ public class MonobankActuator {
                 log.info("records are up to date");
             } else {
                 log.info("save new records from date {}", rangeEnd.getPrettyTime());
+                resolver.resolveCategories(spends);
                 spendsRepository.saveAll(spends.stream().map(SpentModelDTO::toSpendModel).collect(Collectors.toList()));
             }
         }
