@@ -19,7 +19,6 @@ public class SpendsCustomRepositoryImpl implements SpendsCustomRepository {
 
     @Override
     public List<SpentModel> findAllByTime(Long dateFrom, Long dateTo) {
-
         Query query = new Query().addCriteria(Criteria.where(TIME).gt(dateFrom).andOperator(Criteria.where(TIME).lt(dateTo)));
         return template.find(query, SpentModel.class);
     }
@@ -29,15 +28,6 @@ public class SpendsCustomRepositoryImpl implements SpendsCustomRepository {
         Query query = new Query()
                 .limit(1)
                 .with(Sort.by(Sort.Direction.DESC, TIME));
-
-        return template.findOne(query, SpentModel.class);
-    }
-
-    @Override
-    public SpentModel findByMinTime() {
-        Query query = new Query()
-                .limit(1)
-                .with(Sort.by(Sort.Direction.ASC, TIME));
 
         return template.findOne(query, SpentModel.class);
     }
