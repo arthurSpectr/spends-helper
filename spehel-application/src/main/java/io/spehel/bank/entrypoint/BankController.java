@@ -30,9 +30,9 @@ public class BankController {
         return "spends";
     }
 
-    @PostMapping("/spends")
+    @PostMapping
     public String spendsByDate(@RequestParam(value = "pageNumber", required = false, defaultValue = "1") int pageNumber,
-                               @RequestParam(value = "size", required = false, defaultValue = "5") int size,
+                               @RequestParam(value = "size", required = false, defaultValue = "12") int size,
                                RangeModel rangeModel, Model model) {
         Paged<Spend> spends = bankFacade.getSpends(rangeModel, pageNumber, size);
         model.addAttribute("spendsPage", spends);
