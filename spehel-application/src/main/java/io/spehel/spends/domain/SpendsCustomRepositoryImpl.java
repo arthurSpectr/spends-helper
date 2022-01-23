@@ -1,4 +1,4 @@
-package io.spehel.configuration;
+package io.spehel.spends.domain;
 
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;

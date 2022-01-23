@@ -1,4 +1,4 @@
-package io.spehel.configuration;
+package io.spehel.spends.domain;
 
 import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.repository.MongoRepository;

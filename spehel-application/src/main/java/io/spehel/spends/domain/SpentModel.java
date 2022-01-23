@@ -1,16 +1,20 @@
-
-package io.spehel.bank.domain.model;
-
+package io.spehel.spends.domain;
 
 import io.blend.api.model.Spend;
+import nonapi.io.github.classgraph.json.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Calendar;
 import java.util.Date;
 
+@Document
 public class SpentModel {
 
+    @Id
+    private String id;
     private Long amount;
     private Long balance;
     private Long cashbackAmount;
@@ -21,11 +25,27 @@ public class SpentModel {
     private Long currencyCode;
     private String description;
     private Boolean hold;
-    private String id;
     private Long mcc;
     private Long operationAmount;
     private String receiptId;
     private Long time;
+
+    public SpentModel(Long amount, Long balance, Long cashbackAmount, String comment, Long commissionRate, String counterEdrpou, String counterIban, Long currencyCode, String description, Boolean hold, Long mcc, Long operationAmount, String receiptId, Long time) {
+        this.amount = amount;
+        this.balance = balance;
+        this.cashbackAmount = cashbackAmount;
+        this.comment = comment;
+        this.commissionRate = commissionRate;
+        this.counterEdrpou = counterEdrpou;
+        this.counterIban = counterIban;
+        this.currencyCode = currencyCode;
+        this.description = description;
+        this.hold = hold;
+        this.mcc = mcc;
+        this.operationAmount = operationAmount;
+        this.receiptId = receiptId;
+        this.time = time;
+    }
 
     public Long getAmount() {
         return amount;
@@ -107,14 +127,6 @@ public class SpentModel {
         this.hold = hold;
     }
 
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
     public Long getMcc() {
         return mcc;
     }
@@ -139,7 +151,11 @@ public class SpentModel {
         this.receiptId = receiptId;
     }
 
-    public LocalDate getTime() {
+    public Long getTime() {
+        return time;
+    }
+
+    public LocalDate getPrettyTime() {
 
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(time * 1000L);
@@ -148,12 +164,20 @@ public class SpentModel {
         return time.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
     }
 
+    public Instant getTimeInstant() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(time * 1000L);
+        Date time = calendar.getTime();
+
+        return time.toInstant();
+    }
+
     public void setTime(Long time) {
         this.time = time;
     }
 
     public Spend toDTO() {
-        return new Spend((amount.doubleValue() / 100), getTime(), description, (balance.doubleValue() / 100));
+        return new Spend((amount.doubleValue() / 100), getPrettyTime(), description, (balance.doubleValue() / 100));
     }
 
     @Override
@@ -173,7 +197,8 @@ public class SpentModel {
 //                ", mcc=" + mcc +
                 ", operationAmount=" + operationAmount +
 //                ", receiptId='" + receiptId + '\'' +
-                ", time=" + getTime() +
+                ", time=" + getPrettyTime() +
                 " }\n";
     }
 }
+

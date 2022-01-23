@@ -1,4 +1,4 @@
-package io.spehel.configuration;
+package io.spehel.spends.domain;
 
 import java.util.List;
 
