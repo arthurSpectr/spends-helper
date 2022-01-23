@@ -32,7 +32,7 @@
         <tr th:each="word : ${words}">
             <td><span th:text="${words.indexOf(word)}"></span></td>
             <td><span th:text="${word.category}"></span></td>
-            <td><span th:text="${word.words}"></span></td>
+            <td><span th:text="${word.getPrettyWords()}"></span></td>
             <td>
                 <a th:href="@{/admin/delete-record/{id}(id=${word.id})}" class="btn btn-danger">X</a>
                 <a th:href="@{/admin/edit-record/{id}(id=${word.id})}" class="btn btn-info"><i class="fa fa-pencil"></i></a>

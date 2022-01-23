@@ -69,4 +69,20 @@ public class AdminController {
         return "add-record";
     }
 
+    @PostMapping("/edit-record/{id}")
+    public String saveEditRecord(@PathVariable("id") String objectId, Model model, CategoryModel categoriesWords) {
+        Optional<CategoryModel> byId = repository.findById(objectId);
+
+        if (byId.isPresent()) {
+            CategoryModel words = byId.get();
+            words.setWords(categoriesWords.getWords());
+            repository.save(words);
+        }
+
+        List<CategoryModel> all = repository.findAll();
+        model.addAttribute("words", all);
+
+        return "redirect:/admin";
+    }
+
 }

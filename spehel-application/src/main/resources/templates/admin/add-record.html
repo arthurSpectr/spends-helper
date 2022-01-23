@@ -16,8 +16,8 @@
             </select>
         </div>
         <div class="form-group">
-            <label for="words">Words</label>
-            <input type="text" th:value="${wordsModel?.words}" class="form-control" id="words" name="words"
+            <label>Words</label>
+            <input type="text" th:value="${wordsModel?.getPrettyWords()}" class="form-control" th:id="words" th:name="words"
                    placeholder="Key words">
         </div>
         <button type="submit" class="btn btn-primary">Submit</button>
