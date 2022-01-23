@@ -29,6 +29,7 @@ public class MonobankProvider implements BankProvider {
     @Value("${spehel.bank.monobank.xToken}")
     private String xTokenHeaderValue;
 
+    // Maybe there is more effective way to handle bad request
     @Override
     public List<SpentModelDTO> getSpends(String balance, long dateFrom, long dateTo) {
 
@@ -47,8 +48,29 @@ public class MonobankProvider implements BankProvider {
 
             if(execute.code() != 200) {
                 log.info("Bad request");
+
+                try {
+                    Thread.sleep(5000);
+                } catch (InterruptedException e) {
+                    log.error("interrupted when trying to wait next request");
+                }
+                Response execute2 = client.newCall(req).execute();
+
                 String jsonResponse = execute.body().string();
                 log.info(jsonResponse);
+
+                String jsonResponse2 = execute2.body().string();
+                log.info(jsonResponse2);
+
+                log.info("is response 1 equal to response 2 == {}, is response 1 bigger than response 2 == {}", (jsonResponse.equals(jsonResponse2)), (jsonResponse.length() > jsonResponse.length()));
+
+                if(execute2.code() != 200) {
+                    log.info("Bad request again(");
+                } else {
+                    Type userListType = new TypeToken<ArrayList<SpentModelDTO>>(){}.getType();
+                    spentModels = new Gson().fromJson(jsonResponse2, userListType);
+                }
+
             } else {
                 String jsonResponse = execute.body().string();
 
@@ -58,7 +80,7 @@ public class MonobankProvider implements BankProvider {
             }
 
         } catch (IOException e) {
-            log.error("some exception during performing request");
+            log.error("some exception during performing request {0}", e);
         }
 
         return spentModels;
