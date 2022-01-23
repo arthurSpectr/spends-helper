@@ -1,9 +1,9 @@
 package io.spehel.bank.domain;
 
 import io.spehel.bank.domain.model.Category;
+import io.spehel.bank.domain.model.SpentModelDTO;
 import io.spehel.redis.domain.RedisCategoryModel;
 import io.spehel.redis.domain.RedisCategoryRepository;
-import io.spehel.spends.domain.SpentModel;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -16,9 +16,9 @@ public class CategoryResolver {
     @Autowired
     private RedisCategoryRepository repository;
 
-    List<SpentModel> resolveCategories(List<SpentModel> spends) {
+    public List<SpentModelDTO> resolveCategories(List<SpentModelDTO> spends) {
 
-        for (SpentModel spend : spends) {
+        for (SpentModelDTO spend : spends) {
             Category category = resolve(spend.getDescription());
 
             if (category != null) {

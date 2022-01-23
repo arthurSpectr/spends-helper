@@ -44,7 +44,7 @@ public class BankFacadeImpl implements BankFacade {
         Page<SpentModel> spends;
         Page<Spend> result = Page.empty();
 
-        if(Objects.nonNull(range)) {
+        if(Objects.nonNull(range) && (range.getDateFrom() != null && range.getDateTo() != null)) {
             spends = spendsRepository.findAllByTimeBetween(range.getDateFrom().toInstant().getEpochSecond(), range.getDateTo().toInstant().getEpochSecond(), PageRequest.of(pageNumber, size, Sort.by(Sort.Direction.DESC, "time")));
         } else {
             spends = spendsRepository.findAllByTimeBetween(Instant.now().minus(30, ChronoUnit.DAYS).getEpochSecond(), Instant.now().getEpochSecond(), PageRequest.of(pageNumber, size, Sort.by(Sort.Direction.DESC, "time")));
