@@ -50,11 +50,11 @@
         </tr>
         </thead>
         <tbody>
-        <tr th:if="${spends.empty}">
+        <tr th:if="${spendsPage.page.getContent().empty}">
             <td colspan="2"> No Spends Available </td>
         </tr>
-        <tr th:each="spend : ${spends}">
-            <td><span th:text="${spends.indexOf(spend)}"></span></td>
+        <tr th:each="spend, iter : ${spendsPage.page.getContent()}">
+            <td><span th:text="${spendsPage.indexes.get(iter.index)}"></span></td>
             <td><span th:text="${spend.amount}"></span></td>
             <td><span th:text="${spend.date}"></span></td>
             <td><span th:text="${spend.category}"></span></td>
@@ -62,6 +62,27 @@
         </tr>
         </tbody>
     </table>
+    <nav aria-label="Page navigation" class="paging">
+        <ul class="pagination" th:if="${spendsPage.page.totalPages > 1}">
+            <li class="page-item" th:classappend="${!spendsPage.paging.isPrevEnabled()? 'disabled' : ''}">
+                <a class="page-link" th:href="@{'/?pageNumber=' + ${spendsPage.paging.pageNumber - 1}}"
+                   tabindex="-1">Previous</a>
+            </li>
+            <th:block th:each="item : ${spendsPage.paging.getItems()}">
+                <li class="page-item" th:classappend="${item.index == spendsPage.paging.pageNumber? 'active' : ''}"
+                    th:if="${item.pageItemType.name() == 'PAGE'}">
+                    <a class="page-link" th:href="@{'/?pageNumber=' + ${item.index}}"
+                       th:text="${item.index}"></a>
+                </li>
+                <li class="page-item disabled" th:if="${item.pageItemType.name() == 'DOTS'}">
+                    <a class="page-link" href="#">...</a>
+                </li>
+            </th:block>
+            <li class="page-item" th:classappend="${!spendsPage.paging.isNextEnabled()? 'disabled' : ''}">
+                <a class="page-link" th:href="@{'/?pageNumber=' + ${spendsPage.paging.pageNumber + 1}}">Next</a>
+            </li>
+        </ul>
+    </nav>
 
 </div>
 

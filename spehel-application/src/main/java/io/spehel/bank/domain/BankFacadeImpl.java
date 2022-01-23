@@ -1,72 +1,62 @@
 package io.spehel.bank.domain;
 
-import com.google.common.collect.Lists;
 import io.blend.api.model.Spend;
 import io.spehel.bank.BankFacade;
 import io.spehel.bank.domain.model.CategoryModel;
 import io.spehel.bank.domain.model.RangeModel;
+import io.spehel.bank.domain.paging.Paged;
+import io.spehel.bank.domain.paging.Paging;
 import io.spehel.spends.domain.SpendsRepository;
 import io.spehel.spends.domain.SpentModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @Component
 public class BankFacadeImpl implements BankFacade {
 
     private static final Logger log = LoggerFactory.getLogger(BankFacadeImpl.class);
 
-    @Value("${spehel.bank.monobank.dollarBalanceBlack}")
-    private String dollarBalanceBlack;
-
-    @Value("${spehel.bank.monobank.hrivnaBalanceBlack}")
-    private String hrivnaBalanceBlack;
-
-    @Value("${spehel.bank.monobank.hrivnaBalanceWhite}")
-    private String hrivnaBalanceWhite;
-
     private final CategoriesRepository repository;
 
     private final SpendsRepository spendsRepository;
 
-    private final CategoryResolver resolver;
-
-    public BankFacadeImpl(CategoriesRepository repository, SpendsRepository spendsRepository, CategoryResolver resolver) {
+    public BankFacadeImpl(CategoriesRepository repository, SpendsRepository spendsRepository) {
         this.repository = repository;
         this.spendsRepository = spendsRepository;
-        this.resolver = resolver;
     }
 
     @Override
-    public List<Spend> getSpends(RangeModel range) {
+    public Paged<Spend> getSpends(RangeModel range, int pageNumber, int size) {
         List<CategoryModel> all = repository.findAll();
         log.info(String.valueOf(all));
 
-        List<SpentModel> spends;
-        List<Spend> result = new ArrayList<>();
+        Page<SpentModel> spends;
+        Page<Spend> result = Page.empty();
 
         if(Objects.nonNull(range)) {
-            spends = spendsRepository.findAllByTime(range.getDateFrom().toInstant().getEpochSecond(), range.getDateTo().toInstant().getEpochSecond());
+            spends = spendsRepository.findAllByTimeBetween(range.getDateFrom().toInstant().getEpochSecond(), range.getDateTo().toInstant().getEpochSecond(), PageRequest.of(pageNumber, size, Sort.by(Sort.Direction.DESC, "time")));
         } else {
-            spends = spendsRepository.findAllByTime(Instant.now().minus(30, ChronoUnit.DAYS).getEpochSecond(), Instant.now().getEpochSecond());
+            spends = spendsRepository.findAllByTimeBetween(Instant.now().minus(30, ChronoUnit.DAYS).getEpochSecond(), Instant.now().getEpochSecond(), PageRequest.of(pageNumber, size, Sort.by(Sort.Direction.DESC, "time")));
         }
 
         if(Objects.nonNull(spends)) {
-            List<SpentModel> spentModels = resolver.resolveCategories(spends);
-
-            List<Spend> tempList = spentModels.stream().map(SpentModel::toDTO).collect(Collectors.toList());
-            result =  Lists.reverse(tempList);
+            result = spends.map(SpentModel::toDTO);
         }
 
-        return result;
+        List<Integer> indexes = IntStream.range(size * (pageNumber - 1)+1, size * pageNumber+1).boxed().collect(Collectors.toList());
+
+        return new Paged<>(result, Paging.of(result.getTotalPages(), pageNumber, size), indexes);
     }
 
 }
