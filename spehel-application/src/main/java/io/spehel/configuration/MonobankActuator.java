@@ -7,37 +7,37 @@ import io.spehel.spends.domain.SpendsRepository;
 import io.spehel.spends.domain.SpentModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
-import org.springframework.stereotype.Component;
 
 import java.time.Instant;
+import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Component
 public class MonobankActuator {
 
     private static final Logger log = LoggerFactory.getLogger(MonobankActuator.class);
 
-    @Value("${spehel.bank.monobank.hrivnaBalanceWhite}")
     private String hrivnaBalanceWhite;
 
-    @Value("${spehel.monthToStart}")
     private int monthToStart;
 
-    @Autowired
-    private BankProvider bankProvider;
+    private final BankProvider bankProvider;
 
-    @Autowired
-    private SpendsRepository spendsRepository;
+    private final SpendsRepository spendsRepository;
 
-    @Autowired
-    private CategoryResolver resolver;
+    private final CategoryResolver resolver;
+
+    public MonobankActuator(String hrivnaBalanceWhite, int monthToStart, BankProvider bankProvider, SpendsRepository spendsRepository, CategoryResolver resolver) {
+        this.hrivnaBalanceWhite = hrivnaBalanceWhite;
+        this.monthToStart = monthToStart;
+        this.bankProvider = bankProvider;
+        this.spendsRepository = spendsRepository;
+        this.resolver = resolver;
+    }
 
     @EventListener(ApplicationReadyEvent.class)
     public void actualizeSpends() {
@@ -53,19 +53,36 @@ public class MonobankActuator {
             log.info("save new records from last 30 days");
             spends = accumulateRecords(monthToStart);
 
-            resolver.resolveCategories(spends);
-
-            spendsRepository.saveAll(spends.stream().map(SpentModelDTO::toSpendModel).collect(Collectors.toList()));
+            resolveAndSaveSpends(spends, LocalDate.now().plus(30, ChronoUnit.DAYS));
         } else {
-            spends = bankProvider.getSpends(hrivnaBalanceWhite, rangeEnd.getTimeInstant().plus(1, ChronoUnit.SECONDS).toEpochMilli(), Instant.now().toEpochMilli());
 
-            if (spends.isEmpty()) {
-                log.info("records are up to date");
+            Instant lastTime = rangeEnd.getTimeInstant().plus(1, ChronoUnit.SECONDS);
+
+            long between = ChronoUnit.DAYS.between(lastTime, Instant.now());
+
+            if(between >= 30) {
+                while(between != 0) {
+                    long step = between > 30 ? 30 : between;
+                    spends = bankProvider.getSpends(hrivnaBalanceWhite, lastTime.toEpochMilli(), lastTime.plus(step, ChronoUnit.DAYS).toEpochMilli());
+                    lastTime = lastTime.plus(step, ChronoUnit.DAYS);
+                    between = ChronoUnit.DAYS.between(lastTime, Instant.now());
+                    resolveAndSaveSpends(spends, rangeEnd.getPrettyTime());
+                }
             } else {
-                log.info("save new records from date {}", rangeEnd.getPrettyTime());
-                resolver.resolveCategories(spends);
-                spendsRepository.saveAll(spends.stream().map(SpentModelDTO::toSpendModel).collect(Collectors.toList()));
+                spends = bankProvider.getSpends(hrivnaBalanceWhite, rangeEnd.getTimeInstant().plus(1, ChronoUnit.SECONDS).toEpochMilli(), Instant.now().toEpochMilli());
+                resolveAndSaveSpends(spends, rangeEnd.getPrettyTime());
             }
+
+        }
+    }
+
+    private void resolveAndSaveSpends(List<SpentModelDTO> spends, LocalDate rangeEnd) {
+        if (spends.isEmpty()) {
+            log.info("records are up to date");
+        } else {
+            log.info("save new records from date {}", rangeEnd);
+            resolver.resolveCategories(spends);
+            spendsRepository.saveAll(spends.stream().map(SpentModelDTO::toSpendModel).collect(Collectors.toList()));
         }
     }
     

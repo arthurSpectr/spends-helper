@@ -21,6 +21,7 @@ public class RedisActuator {
 
     @EventListener(ApplicationReadyEvent.class)
     public void initCache() {
+        redisCategoryRepository.deleteAll();
         List<CategoryModel> categories = categoriesRepository.findAll();
 
         for (CategoryModel category : categories) {

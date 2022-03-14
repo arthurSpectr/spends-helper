@@ -14,6 +14,7 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Component
@@ -33,7 +34,7 @@ public class MonobankProvider implements BankProvider {
     @Override
     public List<SpentModelDTO> getSpends(String balance, long dateFrom, long dateTo) {
 
-        List<SpentModelDTO> spentModels = null;
+        List<SpentModelDTO> spentModels = Collections.emptyList();
 
         OkHttpClient client = new OkHttpClient();
 
@@ -47,7 +48,7 @@ public class MonobankProvider implements BankProvider {
             Response execute = client.newCall(req).execute();
 
             if(execute.code() != 200) {
-                log.info("Bad request");
+                log.error("Bad request, response code is not 200 {}", execute.code());
 
                 try {
                     Thread.sleep(5000);
@@ -65,7 +66,7 @@ public class MonobankProvider implements BankProvider {
                 log.info("is response 1 equal to response 2 == {}, is response 1 bigger than response 2 == {}", (jsonResponse.equals(jsonResponse2)), (jsonResponse.length() > jsonResponse.length()));
 
                 if(execute2.code() != 200) {
-                    log.info("Bad request again(");
+                    log.error("Bad request again( response code {}", execute2.code());
                 } else {
                     Type userListType = new TypeToken<ArrayList<SpentModelDTO>>(){}.getType();
                     spentModels = new Gson().fromJson(jsonResponse2, userListType);
