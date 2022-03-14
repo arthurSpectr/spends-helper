@@ -28,7 +28,7 @@ public class AdminController {
     @PostMapping("/add-record")
     public String addRecord(CategoryModel categoriesWords, Model model) {
         List<String> words = categoriesWords.getWords();
-        categoriesWords.setWords(words.isEmpty() ? words : List.of(words.get(0).split(" ")));
+        categoriesWords.setWords(words);
         repository.save(categoriesWords);
         List<CategoryModel> all = repository.findAll();
         model.addAttribute("words", all);
@@ -37,6 +37,8 @@ public class AdminController {
 
     @GetMapping("/add-record")
     public String getRecord(Model model) {
+        CategoryModel categoriesWords = new CategoryModel();
+        model.addAttribute("wordsModel", categoriesWords);
         model.addAttribute("categories", Category.values());
         return "add-record";
     }
@@ -57,23 +59,22 @@ public class AdminController {
 
     @GetMapping("/edit-record/{id}")
     public String editRecord(@PathVariable("id") String objectId, Model model) {
-        Optional<CategoryModel> byId = repository.findById(objectId);
+        Optional<CategoryModel> categoryModel = repository.findById(objectId);
 
-        if (byId.isPresent()) {
-            CategoryModel words = byId.get();
+        if (categoryModel.isPresent()) {
+            CategoryModel words = categoryModel.get();
             model.addAttribute("wordsModel", words);
         }
 
-
-        return "add-record";
+        return "edit-record";
     }
 
     @PostMapping("/edit-record/{id}")
     public String saveEditRecord(@PathVariable("id") String objectId, Model model, CategoryModel categoriesWords) {
-        Optional<CategoryModel> byId = repository.findById(objectId);
+        Optional<CategoryModel> wordsModel = repository.findById(objectId);
 
-        if (byId.isPresent()) {
-            CategoryModel words = byId.get();
+        if (wordsModel.isPresent()) {
+            CategoryModel words = wordsModel.get();
             words.setWords(categoriesWords.getWords());
             repository.save(words);
         }

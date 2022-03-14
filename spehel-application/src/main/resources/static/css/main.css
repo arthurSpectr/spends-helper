@@ -4,6 +4,31 @@ a {
     border: none;
 }
 
+/*Move submit form on main page to be in one row with start and end date*/
+.between {
+    display: inline-block;
+}
+
+.clear {
+    color: white
+}
+
+a:focus {
+    color: white
+}
+
+/*.clear a:active {*/
+/*    color: white*/
+/*}*/
+
+/*.clear a:link {*/
+/*    color: white;*/
+/*}*/
+
+/*.clear a:visited {*/
+/*    color: white;*/
+/*}*/
+
 /*a:active, a:focus {*/
 /*    outline: none;*/
 /*    border: none;*/
