@@ -58,7 +58,7 @@ public class Paging {
         paging.setPageNumber(pageNumber);
 
         if (totalPages < PAGINATION_STEP * 2 + 6) {
-            paging.addPageItems(1, totalPages + 1, pageNumber);
+            paging.addPageItems(1, totalPages, pageNumber);
 
         } else if (pageNumber < PAGINATION_STEP * 2 + 1) {
             paging.addPageItems(1, PAGINATION_STEP * 2 + 4, pageNumber);
@@ -66,7 +66,7 @@ public class Paging {
 
         } else if (pageNumber > totalPages - PAGINATION_STEP * 2) {
             paging.first(pageNumber);
-            paging.addPageItems(totalPages - PAGINATION_STEP * 2 - 2, totalPages + 1, pageNumber);
+            paging.addPageItems(totalPages - PAGINATION_STEP * 2 - 2, totalPages, pageNumber);
 
         } else {
             paging.first(pageNumber);

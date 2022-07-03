@@ -12,9 +12,10 @@
 </head>
 <body>
 
-<div class="container">
+<div class="container-custom">
 <!--    <a th:href="@{/admin/add-record}" class="btn btn-primary"><button class="btn btn-primary" type="button" data-toggle="modal" data-target="#exampleModal">Add record</button></a>-->
-    <a th:href="@{/admin/add-record}" class="btn btn-primary">Add record</a>
+<!--    <a th:href="@{/admin/add-record}" class="btn btn-primary add">Add record</a>-->
+<!--    Because categories list determinate -->
 <!--    <th:block th:replace="modal :: modal('exampleModal')">modal</th:block>-->
     <table class="table">
         <thead>
@@ -33,7 +34,7 @@
             <td><span th:text="${words.indexOf(word)}"></span></td>
             <td><span th:text="${word.category}"></span></td>
             <td><span th:text="${word.getPrettyWords()}"></span></td>
-            <td>
+            <td class="controls">
                 <a th:href="@{/admin/delete-record/{id}(id=${word.id})}" class="btn btn-danger">X</a>
                 <a th:href="@{/admin/edit-record/{id}(id=${word.id})}" class="btn btn-info"><i class="fa fa-pencil"></i></a>
             </td>

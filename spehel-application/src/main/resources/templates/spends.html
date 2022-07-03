@@ -12,34 +12,37 @@
 </head>
 <body>
 
-<div class="container">
+<div class="container-custom">
 
     <h1>All spends from Monobank</h1>
 
-    <form method="post" th:object="${range}">
-        <div class="form-group row">
-            <div class="col-md-4 mt-5">
-                <label for="start-date">Start date</label>
-                <div class="input-group date">
-                    <input type="text" class="form-control" id="start-date" autocomplete="off" th:field="*{dateFrom}"/>
-                    <div class="input-group-append">
-                        <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
+    <div class="search">
+        <form method="post" th:object="${range}">
+            <div class="form-group row">
+                <div class="col-sm">
+                    <label for="start-date">Start date</label>
+                    <div class="input-group date">
+                        <input type="text" class="form-control" id="start-date" autocomplete="off"
+                               th:field="*{dateFrom}"/>
+                        <div class="input-group-append">
+                            <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm">
+                    <label for="end-date">End date</label>
+                    <div class="input-group date">
+                        <input type="text" class="form-control" id="end-date" autocomplete="off" th:field="*{dateTo}"/>
+                        <div class="input-group-append">
+                            <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="col-md-4 mt-5">
-                <label for="end-date">End date</label>
-                <div class="input-group date">
-                    <input type="text" class="form-control" id="end-date" autocomplete="off" th:field="*{dateTo}"/>
-                    <div class="input-group-append">
-                        <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <button class="btn btn-primary" type="submit">Submit form</button>
-        <button class="btn btn-secondary" type="button"><a class="clear" th:href="@{/clear}">Clear</a></button>
-    </form>
+            <button class="btn btn-primary" type="submit">Submit form</button>
+            <button class="btn btn-secondary" type="button"><a class="clear" th:href="@{/clear}">Clear</a></button>
+        </form>
+    </div>
 
     <table class="table">
         <thead>
@@ -64,8 +67,10 @@
         </tr>
         </tbody>
     </table>
+
+
     <nav aria-label="Page navigation" class="paging">
-        <ul class="pagination" th:if="${spendsPage.page.totalPages > 1}">
+        <ul class="pagination justify-content-center" th:if="${spendsPage.page.totalPages > 1}">
             <li class="page-item" th:classappend="${!spendsPage.paging.isPrevEnabled()? 'disabled' : ''}">
                 <a class="page-link" th:href="@{'/?pageNumber=' + ${spendsPage.paging.pageNumber - 1}}"
                    tabindex="-1">Previous</a>

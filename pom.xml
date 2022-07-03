@@ -36,14 +36,23 @@
 
         <!-- Commons -->
         <gson.version>2.8.0</gson.version>
+
+        <!-- Infrastructure -->
+        <mongock.version>3.3.2</mongock.version>
     </properties>
 
     <dependencyManagement>
         <dependencies>
-            <!-- Blend -->
+            <!-- Spehel -->
             <dependency>
                 <groupId>io.spehel</groupId>
                 <artifactId>spehel-spring-web-stub</artifactId>
+                <version>0.0.1</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.spehel</groupId>
+                <artifactId>spehel-api</artifactId>
                 <version>0.0.1</version>
             </dependency>
 
@@ -81,6 +90,25 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-data-redis</artifactId>
                 <version>${spring-boot-redis}</version>
+            </dependency>
+
+            <!-- Infrastructure -->
+            <dependency>
+                <groupId>com.github.cloudyrock.mongock</groupId>
+                <artifactId>mongock-core</artifactId>
+                <version>${mongock.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.cloudyrock.mongock</groupId>
+                <artifactId>mongock-spring</artifactId>
+                <version>${mongock.version}</version>
+            </dependency>
+
+            <!-- Validation -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-validation</artifactId>
+                <version>2.5.6</version>
             </dependency>
 
         </dependencies>

@@ -1,15 +1,20 @@
 package io.spehel.bank.entrypoint;
 
 import io.spehel.bank.domain.CategoriesRepository;
-import io.spehel.bank.domain.model.CategoryModel;
 import io.spehel.bank.domain.model.Category;
+import io.spehel.bank.domain.model.CategoryModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Controller
 @RequestMapping("/admin")
@@ -27,11 +32,23 @@ public class AdminController {
 
     @PostMapping("/add-record")
     public String addRecord(CategoryModel categoriesWords, Model model) {
-        List<String> words = categoriesWords.getWords();
-        categoriesWords.setWords(words);
-        repository.save(categoriesWords);
+        CategoryModel existingModel = repository.findByCategory(categoriesWords.getCategory());
+
+        if(existingModel != null) {
+            List<String> newWords = Stream.concat(categoriesWords.getWords().stream(), existingModel.getWords().stream()).distinct().collect(Collectors.toList());
+            existingModel.setWords(newWords);
+
+            repository.save(existingModel);
+        } else {
+            List<String> words = categoriesWords.getWords();
+            categoriesWords.setWords(words);
+
+            repository.save(categoriesWords);
+        }
+
         List<CategoryModel> all = repository.findAll();
         model.addAttribute("words", all);
+
         return "redirect:/admin";
     }
 

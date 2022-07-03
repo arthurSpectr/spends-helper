@@ -17,6 +17,24 @@ a:focus {
     color: white
 }
 
+.container-custom {
+    padding: 0;
+    margin: 50px 200px 0 200px;
+    text-align: center;
+}
+
+.form {
+    text-align: center;
+}
+
+.search {
+    margin-bottom: 16px;
+}
+
+/*.add {*/
+/*    margin-bottom: 50px;*/
+/*}*/
+
 /*.clear a:active {*/
 /*    color: white*/
 /*}*/
