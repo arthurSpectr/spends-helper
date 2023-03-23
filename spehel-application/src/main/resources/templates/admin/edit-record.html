@@ -11,7 +11,7 @@
     <form action="#" th:action="@{/admin/edit-record/{id}(id=${wordsModel.id})}" th:object="${wordsModel}" method="post">
         <div class="form-group">
             <select class="custom-select" th:field="*{category}">
-                <option th:each="category : ${T(io.spehel.bank.domain.model.Category).values()}" th:value="${wordsModel?.category ?: category}" th:text="${category}">
+                <option th:each="category : ${T(io.spehel.bank.domain.model.Category).values()}" th:value="${wordsModel?.category ?: category}" th:text="${wordsModel.category}">
                 </option>
             </select>
         </div>

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -92,7 +93,16 @@ public class AdminController {
 
         if (wordsModel.isPresent()) {
             CategoryModel words = wordsModel.get();
-            words.setWords(categoriesWords.getWords());
+            List<String> newWords;
+
+            if(!categoriesWords.getWords().isEmpty()) {
+                newWords = categoriesWords.getWords().stream()
+                        .flatMap(wordsList -> Arrays.stream(wordsList.split("\\s"))).collect(Collectors.toList());
+            } else {
+                newWords = words.getWords();
+            }
+
+            words.setWords(newWords);
             repository.save(words);
         }
 

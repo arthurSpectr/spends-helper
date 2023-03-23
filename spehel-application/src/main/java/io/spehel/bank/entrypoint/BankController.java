@@ -4,7 +4,6 @@ import io.blend.api.model.Spend;
 import io.spehel.bank.BankFacade;
 import io.spehel.bank.domain.model.RangeModel;
 import io.spehel.bank.domain.paging.Paged;
-import org.springframework.http.ResponseEntity;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.time.Instant;
 import java.util.Date;
 
 @Controller
@@ -44,7 +42,7 @@ public class BankController {
             rangeModel.setDateTo(new Date(end));
         }
 
-        Paged<Spend> spends = bankFacade.getSpends(rangeModel, pageNumber, size);
+        Paged<Spend> spends = bankFacade.getSpendsInRange(rangeModel, pageNumber, size);
         model.addAttribute("spendsPage", spends);
         model.addAttribute("range", rangeModel);
 
@@ -56,7 +54,7 @@ public class BankController {
                                @RequestParam(value = "size", required = false, defaultValue = "12") int size,
                                RangeModel rangeModel, Model model,
                                HttpServletResponse response) {
-        Paged<Spend> spends = bankFacade.getSpends(rangeModel, pageNumber, size);
+        Paged<Spend> spends = bankFacade.getSpendsInRange(rangeModel, pageNumber, size);
         model.addAttribute("spendsPage", spends);
         model.addAttribute("range", rangeModel);
 

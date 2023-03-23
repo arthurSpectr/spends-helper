@@ -19,7 +19,7 @@ a:focus {
 
 .container-custom {
     padding: 0;
-    margin: 50px 200px 0 200px;
+    margin: 50px 150px 0 150px;
     text-align: center;
 }
 
@@ -30,6 +30,46 @@ a:focus {
 .search {
     margin-bottom: 16px;
 }
+
+.controls {
+    width: 110px;
+    margin: auto;
+}
+
+.container {
+    height: 100%;
+    width: 100%;
+    /*margin: 0 auto;*/
+}
+
+.chart-header {
+    text-align: center;
+}
+
+.chart {
+    margin: auto;
+    width: 800px;
+}
+
+/*.c3-event-rect {*/
+/*    position: relative;*/
+/*    width: 100%;*/
+/*    height: 100%;*/
+/*}*/
+
+.c3-chart-arc text {
+    fill: black;
+    font-size: 15px;
+}
+
+.c3-chart-arcs-title {
+    fill: black;
+    font-size: 25px;
+}
+
+/*.c3-chart-arcs {*/
+/*    margin-top: 100px;*/
+/*}*/
 
 /*.add {*/
 /*    margin-bottom: 50px;*/

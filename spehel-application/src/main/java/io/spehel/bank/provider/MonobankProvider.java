@@ -48,7 +48,7 @@ public class MonobankProvider implements BankProvider {
             Response execute = client.newCall(req).execute();
 
             if(execute.code() != 200) {
-                log.error("Bad request, response code is not 200 {}", execute.code());
+                log.error("Bad request, response code is {}, not 200", execute.code());
 
                 try {
                     Thread.sleep(5000);

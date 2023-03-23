@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Spehel chart</title>
+
+    <link th:rel="stylesheet" th:href="@{/webjars/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.css}"/>
+    <link th:rel="stylesheet" th:href="@{/webjars/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.standalone.css}"/>
+    <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} "/>
+    <link th:rel="stylesheet" th:href="@{/webjars/font-awesome/5.11.2/css/all.css} "/>
+    <link th:rel="stylesheet" th:href="@{/css/main.css}"/>
+</head>
+<body>
+    <div class="container">
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Amount</th>
+                <th scope="col">Date</th>
+                <th scope="col">Category</th>
+                <th scope="col">Balance</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:if="${spendsPage.page.getContent().empty}">
+                <td colspan="2"> No Spends Available </td>
+            </tr>
+            <tr th:each="spend, iter : ${spendsPage.page.getContent()}">
+                <td><span th:text="${spendsPage.indexes.get(iter.index)}"></span></td>
+                <td><span th:text="${spend.amount}"></span></td>
+                <td><span th:text="${spend.date}"></span></td>
+                <td><span th:text="${spend.category}"></span></td>
+                <td><span th:text="${spend.balance}"></span></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

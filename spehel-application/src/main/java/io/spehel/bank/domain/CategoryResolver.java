@@ -28,12 +28,14 @@ public class CategoryResolver {
         Iterable<RedisCategoryModel> categoryModels = repository.findAll();
 
         for (SpentModelDTO spend : spends) {
-            Category category = resolve(spend.getDescription(), categoryModels);
+
+            String prettyDescription = spend.getDescription().replaceAll("\\s", "");
+            Category category = resolve(prettyDescription, categoryModels);
 
             if (category != null) {
-                spend.setDescription(spend.getDescription() + " - " + category.name());
+                spend.setDescription(prettyDescription + " - " + category.name());
             } else {
-                spend.setDescription(spend.getDescription() + " - " + "UNRECOGNISED");
+                spend.setDescription(prettyDescription + " - " + Category.UNRECOGNISED.name());
             }
         }
 
