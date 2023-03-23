@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} "/>
+</head>
+<body>
+
+<div class="container">
+    <form action="#" th:action="@{/admin/edit-record/{id}(id=${wordsModel.id})}" th:object="${wordsModel}" method="post">
+        <div class="form-group">
+            <select class="custom-select" th:field="*{category}">
+                <option th:each="category : ${T(io.spehel.bank.domain.model.Category).values()}" th:value="${wordsModel?.category ?: category}" th:text="${wordsModel.category}">
+                </option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>Words</label>
+            <input type="text" th:value="${wordsModel?.getPrettyWords()}" class="form-control" th:id="words" th:name="words"
+                   placeholder="Key words">
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>
+
+<script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+<script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
+<script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+</body>
+</html>

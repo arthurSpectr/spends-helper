@@ -1,8 +1,26 @@
 spring:
   application:
     name: spends-helper
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      database: spehel
 
 server:
   port: 8089
   servlet:
     context-path: /main-service
+
+spehel:
+  bank:
+    monobank:
+      url: ${SPEHEL_MONOBANK_URL:https://api.monobank.ua}
+      xToken: ${SPEHEL_X_TOKEN:token}
+      dollarBalanceBlack: ${SPEHEL_DOLLAR_BALANCE_BLACK:account}
+      hrivnaBalanceWhite: ${SPEHEL_HRIVNA_BALANCE_WHITE:account}
+      hrivnaBalanceBlack: ${SPEHEL_HRIVNA_BALANCE_BLACK:account}
+  monthToStart: ${SPEHEL_START_TIME_POINT:3}
+  redis:
+    host: localhost
+    port: 6379

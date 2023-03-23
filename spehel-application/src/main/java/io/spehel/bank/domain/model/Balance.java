@@ -1,5 +1,5 @@
 
-package io.spehel.bank.domain;
+package io.spehel.bank.domain.model;
 
 import java.util.List;
 public class Balance {
@@ -41,7 +41,7 @@ public class Balance {
         this.webHookUrl = webHookUrl;
     }
 
-    static class Account {
+    public static class Account {
 
         private Long balance;
         private String cashbackType;

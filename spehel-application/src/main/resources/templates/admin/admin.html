@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Spehel admin</title>
+
+    <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} "/>
+    <link th:rel="stylesheet" th:href="@{/webjars/font-awesome/5.11.2/css/all.css} "/>
+    <link th:rel="stylesheet" th:href="@{/css/main.css}"/>
+
+    <script src="https://kit.fontawesome.com/f6daa601f0.js" crossorigin="anonymous"></script>
+</head>
+<body>
+
+<div class="container-custom">
+<!--    <a th:href="@{/admin/add-record}" class="btn btn-primary"><button class="btn btn-primary" type="button" data-toggle="modal" data-target="#exampleModal">Add record</button></a>-->
+<!--    <a th:href="@{/admin/add-record}" class="btn btn-primary add">Add record</a>-->
+<!--    Because categories list determinate -->
+<!--    <th:block th:replace="modal :: modal('exampleModal')">modal</th:block>-->
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Category</th>
+            <th scope="col">Words</th>
+            <th scope="col">Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:if="${words.empty}">
+            <td colspan="2"> No Spends Available</td>
+        </tr>
+        <tr th:each="word : ${words}">
+            <td><span th:text="${words.indexOf(word)}"></span></td>
+            <td><span th:text="${word.category}"></span></td>
+            <td><span th:text="${word.getPrettyWords()}"></span></td>
+            <td class="controls">
+                <a th:href="@{/admin/delete-record/{id}(id=${word.id})}" class="btn btn-danger">X</a>
+                <a th:href="@{/admin/edit-record/{id}(id=${word.id})}" class="btn btn-info"><i class="fa fa-pencil"></i></a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+<script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
+<script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+</body>
+</html>

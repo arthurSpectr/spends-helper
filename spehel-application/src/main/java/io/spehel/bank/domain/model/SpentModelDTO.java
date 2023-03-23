@@ -1,11 +1,17 @@
 
-package io.spehel.bank.domain;
+package io.spehel.bank.domain.model;
 
 
+import io.blend.api.model.Spend;
+import io.spehel.spends.domain.SpentModel;
+
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.Calendar;
 import java.util.Date;
 
-public class SpentModel {
+public class SpentModelDTO {
 
     private Long amount;
     private Long balance;
@@ -135,14 +141,35 @@ public class SpentModel {
         this.receiptId = receiptId;
     }
 
-    public Date getTime() {
+    public LocalDate getTime() {
+
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(time * 1000L);
-        return calendar.getTime();
+
+        return calendar.getTime().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+    }
+
+    public Instant getTimeInstant() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(time * 1000L);
+        Date time = calendar.getTime();
+
+        return time.toInstant();
     }
 
     public void setTime(Long time) {
         this.time = time;
+    }
+
+    public Spend toDTO() {
+        return new Spend((amount.doubleValue() / 100), getTime(), description, (balance.doubleValue() / 100));
+    }
+
+    public SpentModel toSpendModel() {
+        return new SpentModel(
+                amount, balance, cashbackAmount, comment, commissionRate, counterEdrpou, counterIban, currencyCode, description, hold, mcc,
+                operationAmount, receiptId, time
+        );
     }
 
     @Override

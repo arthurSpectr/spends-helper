@@ -1,0 +1,103 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <title>Spehel main</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+
+    <link th:rel="stylesheet" th:href="@{/webjars/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.css}"/>
+    <link th:rel="stylesheet" th:href="@{/webjars/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.standalone.css}"/>
+    <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} "/>
+    <link th:rel="stylesheet" th:href="@{/webjars/font-awesome/5.11.2/css/all.css} "/>
+    <link th:rel="stylesheet" th:href="@{/css/main.css}"/>
+</head>
+<body>
+
+<div class="container-custom">
+
+    <h1>All spends from Monobank</h1>
+
+    <div class="search">
+        <form method="post" th:object="${range}">
+            <div class="form-group row">
+                <div class="col-sm">
+                    <label for="start-date">Start date</label>
+                    <div class="input-group date">
+                        <input type="text" class="form-control" id="start-date" autocomplete="off"
+                               th:field="*{dateFrom}"/>
+                        <div class="input-group-append">
+                            <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm">
+                    <label for="end-date">End date</label>
+                    <div class="input-group date">
+                        <input type="text" class="form-control" id="end-date" autocomplete="off" th:field="*{dateTo}"/>
+                        <div class="input-group-append">
+                            <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button class="btn btn-primary" type="submit">Submit form</button>
+            <button class="btn btn-secondary" type="button"><a class="clear" th:href="@{/clear}">Clear</a></button>
+        </form>
+    </div>
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Amount</th>
+            <th scope="col">Date</th>
+            <th scope="col">Category</th>
+            <th scope="col">Balance</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:if="${spendsPage.page.getContent().empty}">
+            <td colspan="2"> No Spends Available </td>
+        </tr>
+        <tr th:each="spend, iter : ${spendsPage.page.getContent()}">
+            <td><span th:text="${spendsPage.indexes.get(iter.index)}"></span></td>
+            <td><span th:text="${spend.amount}"></span></td>
+            <td><span th:text="${spend.date}"></span></td>
+            <td><span th:text="${spend.category}"></span></td>
+            <td><span th:text="${spend.balance}"></span></td>
+        </tr>
+        </tbody>
+    </table>
+
+
+    <nav aria-label="Page navigation" class="paging">
+        <ul class="pagination justify-content-center" th:if="${spendsPage.page.totalPages > 1}">
+            <li class="page-item" th:classappend="${!spendsPage.paging.isPrevEnabled()? 'disabled' : ''}">
+                <a class="page-link" th:href="@{'/?pageNumber=' + ${spendsPage.paging.pageNumber - 1}}"
+                   tabindex="-1">Previous</a>
+            </li>
+            <th:block th:each="item : ${spendsPage.paging.getItems()}">
+                <li class="page-item" th:classappend="${item.index == spendsPage.paging.pageNumber? 'active' : ''}"
+                    th:if="${item.pageItemType.name() == 'PAGE'}">
+                    <a class="page-link" th:href="@{'/?pageNumber=' + ${item.index}}"
+                       th:text="${item.index}"></a>
+                </li>
+                <li class="page-item disabled" th:if="${item.pageItemType.name() == 'DOTS'}">
+                    <a class="page-link" href="#">...</a>
+                </li>
+            </th:block>
+            <li class="page-item" th:classappend="${!spendsPage.paging.isNextEnabled()? 'disabled' : ''}">
+                <a class="page-link" th:href="@{'/?pageNumber=' + ${spendsPage.paging.pageNumber + 1}}">Next</a>
+            </li>
+        </ul>
+    </nav>
+
+</div>
+
+<script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+<script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
+<script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+<script th:src="@{/js/bootstrap-datepicker.js}"></script>
+<script th:src="@{/js/date-picker.js}"></script>
+
+</body>
+</html>
